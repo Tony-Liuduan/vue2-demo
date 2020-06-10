@@ -2,10 +2,11 @@
  * @fileoverview 
  * @author liuduan
  * @Date 2020-06-07 10:59:47
- * @LastEditTime 2020-06-07 17:06:56
+ * @LastEditTime 2020-06-10 11:18:00
 --> 
 <template>
   <div class="list">
+    <p>{{list}}</p>
     <h1>This is a List page</h1>
     <p>获取到的count:{{count}}</p>
     <p>获取到的getter-list:{{filterList}}</p>
@@ -13,7 +14,7 @@
     <p>获取module-A的name值:{{moduleAName}}</p>
     <p>获取module-B的name值:{{moudleBName}}</p>
     <p>获取module-A的age值:{{moduleAAge}}</p>
-    
+
     <button @click="handleAdd({ count: 100 })">加-</button>
     <button @click="handleReduce">减-</button>
     <button @click="handleAddNewState">添加新state</button>
@@ -31,15 +32,29 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions, createNamespacedHelpers } from "vuex";
-const { mapState: mapStateModuleB } = createNamespacedHelpers('moduleB');
+import {
+  mapState,
+  mapGetters,
+  mapMutations,
+  mapActions,
+  createNamespacedHelpers
+} from "vuex";
+const { mapState: mapStateModuleB } = createNamespacedHelpers("moduleB");
 export default {
   name: "List",
   components: {},
   data() {
-    return {};
+    return {
+      list: [1, 2, 3],
+    };
   },
   created() {
+    setTimeout(() => {
+      // this.list[2] = 100;
+      // this.list.push(4);
+      // this.list[2] = 4;
+      this.$set(this.list, 2, 4);
+    }, 200);
     // console.log("create list");
   },
   methods: {
@@ -112,8 +127,8 @@ export default {
       moduleAName: "getName"
     }),
     ...mapStateModuleB({
-      moudleBName: 'name',
-    }),
+      moudleBName: "name"
+    })
   },
   watch: {
     // $route(to, from) {
