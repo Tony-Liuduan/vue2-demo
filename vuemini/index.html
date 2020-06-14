@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的Vue.js</title>
+    <link rel="icon" href="./logo.png" type="image/png">
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="message">
+        {{ message }}
+    </div>
+    <script type="module">
+        /* 测试 observe */
+        import { observe } from './observer.js';
+        /* object测试 */
+        let obj = {
+            a: {
+                b: 1,
+            },
+        };
+        // observe(obj);
+        // obj.a.b = 2;
+        // obj.a.b = {
+        //     c: 1,
+        // }
+        // obj.a.b.c = 2;
+
+
+        // /* array测试 */
+        // let arr = [1, 2, 3];
+        // observe(arr);
+
+        // arr[2] = 3;
+        // arr[2];
+
+        // arr.push(1);
+        // arr.unshift(1);
+        // arr.reverse();
+        // arr.pop();
+        // arr.shift();
+    </script>
+    <script type="module">
+        import Vue from './vue.js';
+        const vm = new Vue({
+            el: 'app',
+            data: {
+                message: 'Hello Vue!',
+            },
+        });
+
+        // 验证批处理
+        for (let i = 0; i < 100; i++) {
+            vm["message"] = i;
+        }
+    </script>
+</body>
+</html>

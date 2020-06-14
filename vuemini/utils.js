@@ -2,7 +2,7 @@
  * @fileoverview 工具方法集合
  * @author liuduan
  * @Date 2020-06-10 15:53:41
- * @LastEditTime 2020-06-10 16:55:58
+ * @LastEditTime 2020-06-14 15:06:26
  */
 function isObject(obj) {
     return obj !== null && typeof obj === 'object';
@@ -23,7 +23,7 @@ function def(obj, key, val, enumerable) {
     })
 }
 
-module.exports = {
+export {
     isObject,
     isPlainObject,
     def,

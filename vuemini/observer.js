@@ -1,17 +1,18 @@
 /**
- * @fileoverview 
+ * @fileoverview 处理响应式数据模块
  * @author liuduan
  * @Date 2020-06-10 10:46:26
- * @LastEditTime 2020-06-10 16:55:34
+ * @LastEditTime 2020-06-14 17:33:14
  */
-const {
+import Dep from './dep.js';
+import {
     arrayMethods,
-} = require('./array');
-const {
+} from './array.js';
+import {
     isObject,
     isPlainObject,
     def,
-} = require('./utils');
+} from './utils.js';
 
 
 /* 将object转换为响应式数据 */
@@ -24,6 +25,9 @@ function defineReactive(obj, key, val) {
         return;
     }
 
+    //收集依赖处理
+    const dep = new Dep();
+
     // 对val继续递归监听转换响应式
     let childOb = observe(val);
 
@@ -31,19 +35,25 @@ function defineReactive(obj, key, val) {
         enumerable: true,
         configurable: true,
         get: function reactiveGetter() {
-            console.log('getter', key, val);
-            // TODO: 操作 childOb，dep依赖管理
+            // console.log('getter', key, val);
+            if (Dep.target) {
+                // 订阅watcher
+                dep.addSub(Dep.target);
+            }
             return val;
         },
         set: function reactiveSetter(newVal) {
             if (newVal === val) {
                 return
             }
-            console.log('setter key is', key, val, newVal);
+            // console.log('setter key is', key, val, newVal);
             val = newVal;
 
             // 这一步很重要，是对新的值进行递归监听转换响应式
             childOb = observe(newVal);
+
+            // 通知每个订阅的watcher-指令更新数据
+            dep.notify();
         },
     });
 }
@@ -87,7 +97,7 @@ class Observer {
 }
 
 
-function observe(value) {
+export function observe(value) {
     if (!isObject(value)) {
         return
     }
@@ -105,7 +115,3 @@ function observe(value) {
 
     return ob;
 }
-
-module.exports = {
-    observe,
-};

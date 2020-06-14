@@ -2,15 +2,17 @@
  * @fileoverview 
  * @author liuduan
  * @Date 2020-06-09 23:00:53
- * @LastEditTime 2020-06-10 16:57:08
+ * @LastEditTime 2020-06-14 15:07:18
  */
-const {
+
+import {
     def,
-} = require('./utils');
+} from './utils.js';
 
 // 延长原型链，创建新的数组原型对象
 const arrayProto = Array.prototype;
-const arrayMethods = Object.create(arrayProto);
+export const arrayMethods = Object.create(arrayProto);
+
 
 const methodsToPatch = [
     'push',
@@ -62,10 +64,4 @@ methodsToPatch.forEach(method => {
         console.log('Array method notify', method, result);
         return result;
     }, false);
-})
-
-
-
-module.exports = {
-    arrayMethods,
-};
+});
